@@ -1,0 +1,78 @@
+# =============================================================================
+# config.yaml
+# -----------------------------------------------------------------------------
+# Central configuration file for the Manufacturing Quality and Operational
+# Performance Analysis project.
+#
+# WHY THIS FILE EXISTS
+# All file paths, thresholds and parameters that the pipelines and notebooks
+# rely on are kept here instead of being hard-coded inside the Python
+# modules. This means that if the folder layout changes, or a business
+# threshold changes (for example the target defect rate), only this file
+# needs to be edited - none of the source code has to change.
+#
+# HOW IT IS USED
+# src/utils/config.py loads this file into a Python dictionary with a single
+# `load_config()` function. Every pipeline (data_pipeline.py,
+# analysis_pipeline.py, reporting_pipeline.py) and main.py reads its paths
+# and parameters from that dictionary.
+# =============================================================================
+
+project:
+  name: "Manufacturing Quality and Operational Performance Analysis"
+  version: "1.0.0"
+  description: >
+    End-to-end analytics project investigating product defects and
+    operational performance in a manufacturing environment using the
+    manufacturing_defect_dataset.csv dataset.
+
+# -----------------------------------------------------------------------------
+# Data paths
+# -----------------------------------------------------------------------------
+data:
+  raw_path: "data/raw/manufacturing_defect_dataset.csv"
+  interim_path: "data/interim/manufacturing_interim.csv"
+  processed_path: "data/processed/manufacturing_processed.csv"
+  dashboard_data_path: "data/processed/dashboard_data.csv"
+
+# -----------------------------------------------------------------------------
+# Output paths
+# -----------------------------------------------------------------------------
+outputs:
+  figures_dir: "reports/figures"
+  reports_dir: "reports"
+  logs_dir: "logs"
+
+# -----------------------------------------------------------------------------
+# Logging configuration
+# -----------------------------------------------------------------------------
+logging:
+  level: "INFO"
+  log_file: "logs/pipeline.log"
+  console: true
+
+# -----------------------------------------------------------------------------
+# Analysis parameters
+# -----------------------------------------------------------------------------
+analysis:
+  # Column that flags whether a production record resulted in a defect
+  # (1 = defective, 0 = not defective).
+  target_column: "DefectStatus"
+  defect_rate_column: "DefectRate"
+
+  # Outlier detection method used across the project (see src/cleaning/outliers.py)
+  outlier_method: "iqr"
+  iqr_multiplier: 1.5
+
+  # Quality score bands used to create the QualityCategory feature
+  # (see notebooks/05_feature_engineering.ipynb)
+  quality_bands:
+    poor_max: 70
+    average_max: 85
+    # above average_max => "Good"
+
+  # Downtime bands used to create the DowntimeCategory feature
+  downtime_bands:
+    low_max: 1.5
+    medium_max: 3.5
+    # above medium_max => "High"

@@ -1,0 +1,46 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Pytest cache
+.pytest_cache/
+
+#Dashboards  
+dashboards/excel
+dashboards/powerbi
+dashboards/tableau
+sql/
+
+
+# NOTE: Datasets are intentionally NOT ignored - this project ships the
+# actual raw and processed manufacturing data so the analysis is fully
+# reproducible.
