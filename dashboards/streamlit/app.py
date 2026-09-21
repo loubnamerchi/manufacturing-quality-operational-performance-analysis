@@ -1,30 +1,3 @@
-"""
-app.py - Streamlit Interactive Dashboard
-==========================================
-
-PURPOSE
--------
-Provides an interactive, filterable dashboard for exploring the
-Manufacturing Quality and Operational Performance Analysis results:
-KPI cards, defect analysis charts, and filters, built on top of the
-dashboard-ready dataset produced by
-src/visualization/dashboard_data.py (data/processed/dashboard_data.csv).
-
-HOW TO RUN
-------------
-From the project root directory:
-
-    streamlit run dashboards/streamlit/app.py
-
-WHERE THE DATA COMES FROM
-----------------------------
-This app does NOT recompute any cleaning, feature engineering, or KPI
-logic itself - it only loads the already-prepared
-data/processed/dashboard_data.csv (built by
-pipelines/analysis_pipeline.py) and the KPI functions in
-src/analysis/kpi_analysis.py, keeping the dashboard's numbers guaranteed
-consistent with the notebooks and reports.
-"""
 
 import sys
 from pathlib import Path
@@ -63,10 +36,6 @@ def main():
     )
 
     df = load_data()
-
-    # ---------------------------------------------------------------
-    # Sidebar filters
-    # ---------------------------------------------------------------
     st.sidebar.header("Filters")
 
     quality_options = sorted(df["QualityCategory"].dropna().unique().tolist())
@@ -96,9 +65,6 @@ def main():
         st.warning("No records match the selected filters. Please broaden your filter selection.")
         return
 
-    # ---------------------------------------------------------------
-    # KPI cards
-    # ---------------------------------------------------------------
     kpis = calculate_all_kpis(filtered)
 
     st.subheader("Key Performance Indicators")
@@ -116,9 +82,6 @@ def main():
 
     st.divider()
 
-    # ---------------------------------------------------------------
-    # Defect analysis charts
-    # ---------------------------------------------------------------
     st.subheader("Defect Analysis")
 
     chart_col1, chart_col2 = st.columns(2)
@@ -143,9 +106,6 @@ def main():
 
     st.divider()
 
-    # ---------------------------------------------------------------
-    # Production and cost overview
-    # ---------------------------------------------------------------
     st.subheader("Production and Cost Overview")
 
     prod_col1, prod_col2 = st.columns(2)
@@ -159,9 +119,6 @@ def main():
 
     st.divider()
 
-    # ---------------------------------------------------------------
-    # Raw data explorer
-    # ---------------------------------------------------------------
     st.subheader("Filtered Data")
     st.dataframe(filtered, use_container_width=True)
 
